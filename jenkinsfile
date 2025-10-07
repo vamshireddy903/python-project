@@ -29,26 +29,30 @@ pipeline {
                     
                     sh """
                     echo \$dockerpass | docker login -u \$dockeruser --password-stdin
-                    echo "Login successful"
+                    echo "✅ Docker Login successful"
                     docker push ${FULL_IMAGE}
                     """
                 }
             }
         }
 
-         stage('Update Manifests & Push to GitHub') {
+        stage('Update Manifests & Push to GitHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'github', 
+                    usernameVariable: 'GIT_USER', 
+                    passwordVariable: 'GIT_TOKEN')]) {
+                    
                     script {
                         sh """
-                        echo "Updating deployment.yaml with new image: ${FULL_IMAGE}"
+                        echo "📝 Updating deployment.yaml with new image: ${FULL_IMAGE}"
                         sed -i "s|image:.*|image: ${FULL_IMAGE}|" manifests/deployment.yaml
 
                         git config --global user.email "devops@automation.com"
                         git config --global user.name "Jenkins Automation"
 
                         git add manifests/deployment.yaml
-                        git diff-index --quiet HEAD || git commit -m "Update image to $FULL_IMAGE [skip ci]"
+                        git diff-index --quiet HEAD || git commit -m "Update image to ${FULL_IMAGE} [skip ci]"
 
                         git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/vamshireddy903/python-project.git
                         git push origin main
