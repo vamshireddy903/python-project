@@ -18,4 +18,4 @@ spec:
       - name: python-app-container
         image: vamsi011/python-app:V1.0.28
         ports:
-        - containerPort: 80
+        - containerPort: 5000
