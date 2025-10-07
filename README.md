@@ -1,5 +1,18 @@
 # How to Build and Run the Container Manually
 
+# Pre-requisites:
+
+**Install python**
+
+ Ubuntu/Debian
+ 
+     sudo apt update
+     sudo apt install python3 python3-pip -y
+
+**Install Flask in your environment:**
+
+    pip3 install flask
+
 # Step 1: Clone the Repository
 
 Open your terminal and run:
