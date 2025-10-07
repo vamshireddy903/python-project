@@ -48,7 +48,7 @@ pipeline {
                         git config --global user.name "Jenkins Automation"
 
                         git add manifests/deployment.yaml
-                        git diff-index --quiet HEAD || git commit -m "Update image to ${FULL_IMAGE}"
+                        git diff-index --quiet HEAD || git commit -m "Update image to $FULL_IMAGE [skip ci]"
 
                         git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/vamshireddy903/python-project.git
                         git push origin main
