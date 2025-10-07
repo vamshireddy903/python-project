@@ -8,7 +8,12 @@
  
      sudo apt update
      sudo apt install python3 python3-pip -y
-
+     
+**Installl pip**
+```
+sudo apt update
+sudo apt install python3-pip -y
+```
 **Install Flask in your environment:**
 
     pip3 install flask
