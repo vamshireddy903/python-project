@@ -67,6 +67,24 @@ pipeline {
         }
     }
 
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh """
+                    # Checkout updates branch to get latest manifests
+                    git fetch origin updates
+                    git checkout updates
+
+                    # Apply the manifests from the updates branch
+                    kubectl apply -f manifests/deployment.yaml
+                    kubectl apply -f manifests/service.yaml
+                    """
+                }
+            }
+        }
+    }
+ 
+
     post {
         always {
             echo "Pipeline finished for build #${BUILD_NUMBER}"
