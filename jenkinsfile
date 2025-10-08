@@ -67,29 +67,6 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                withKubeConfig(
-                    credentialsId: 'kubernetes', 
-                    namespace: 'default', 
-                    restrictKubeConfigAccess: false
-                ) {
-                    script {
-                        sh """
-                        # Checkout updates branch to get latest manifests
-                        git fetch origin updates
-                        git checkout updates
-
-                        # Apply the manifests from the updates branch
-                        kubectl apply -f manifests/deployment.yaml --validate=false
-                        kubectl apply -f manifests/service.yaml --validate=false
-                        """
-                    }
-                }
-            }
-        }
-    }
-
     post {
         always {
             echo "Pipeline finished for build #${BUILD_NUMBER}"
