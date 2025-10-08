@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         IMAGE_NAME = 'vamsi011/python-app'
         TAG        = "V1.0.${BUILD_NUMBER}"
@@ -23,10 +23,9 @@ pipeline {
         stage('Docker Image Push') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub', 
-                    passwordVariable: 'dockerpass', 
+                    credentialsId: 'dockerhub',
+                    passwordVariable: 'dockerpass',
                     usernameVariable: 'dockeruser')]) {
-                    
                     sh """
                     echo \$dockerpass | docker login -u \$dockeruser --password-stdin
                     echo "✅ Docker Login successful"
@@ -39,10 +38,9 @@ pipeline {
         stage('Update Manifests & Push to Updates Branch') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'github', 
-                    usernameVariable: 'GIT_USER', 
+                    credentialsId: 'github',
+                    usernameVariable: 'GIT_USER',
                     passwordVariable: 'GIT_TOKEN')]) {
-                    
                     script {
                         sh """
                         # Checkout the updates branch
@@ -65,7 +63,6 @@ pipeline {
                 }
             }
         }
-    }
 
         stage('Deploy to Kubernetes') {
             steps {
@@ -83,7 +80,6 @@ pipeline {
             }
         }
     }
- 
 
     post {
         always {
