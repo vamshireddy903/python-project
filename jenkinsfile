@@ -8,6 +8,7 @@ pipeline {
     }
 
     stages {
+
         stage('Git Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/vamshireddy903/python-project.git'
@@ -26,6 +27,7 @@ pipeline {
                     credentialsId: 'dockerhub',
                     passwordVariable: 'dockerpass',
                     usernameVariable: 'dockeruser')]) {
+
                     sh """
                     echo \$dockerpass | docker login -u \$dockeruser --password-stdin
                     echo "✅ Docker Login successful"
@@ -41,6 +43,7 @@ pipeline {
                     credentialsId: 'github',
                     usernameVariable: 'GIT_USER',
                     passwordVariable: 'GIT_TOKEN')]) {
+                    
                     script {
                         sh """
                         # Checkout the updates branch
@@ -68,15 +71,16 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubernetes', variable: 'KUBECONFIG')]) {
                     script {
-                    sh """
-                    # Checkout updates branch to get latest manifests
-                    git fetch origin updates
-                    git checkout updates
+                        sh """
+                        # Checkout updates branch to get latest manifests
+                        git fetch origin updates
+                        git checkout updates
 
-                    # Apply the manifests from the updates branch
-                    kubectl apply -f manifests/deployment.yaml
-                    kubectl apply -f manifests/service.yaml
-                    """
+                        # Apply the manifests from the updates branch
+                        kubectl apply -f manifests/deployment.yaml
+                        kubectl apply -f manifests/service.yaml
+                        """
+                    }
                 }
             }
         }
