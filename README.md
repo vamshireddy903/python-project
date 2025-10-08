@@ -22,11 +22,11 @@ sudo apt install python3-pip -y
 
 Open your terminal and run:
 
-    git clone https://github.com/your-username/python-cicd-app.git
+    git clone https://github.com/vamshireddy903/python-project.git
 
 Go inside the cloned repo:
 
-    cd python-cicd-app
+    cd python-project
 
 # Step 2: Build the Docker Image
 
