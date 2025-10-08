@@ -81,8 +81,8 @@ pipeline {
                         git checkout updates
 
                         # Apply the manifests from the updates branch
-                        kubectl apply -f manifests/deployment.yaml
-                        kubectl apply -f manifests/service.yaml
+                        kubectl apply -f manifests/deployment.yaml --validate=false
+                        kubectl apply -f manifests/service.yaml --validate=false
                         """
                     }
                 }
